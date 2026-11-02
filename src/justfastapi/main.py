@@ -3,6 +3,7 @@ from justfastapi.core.config import settings
 from justfastapi.core.database import create_database_pool, create_session_factory
 from justfastapi.core.logging import configure_logging
 from justfastapi.modules.health.router import router as health_router
+from justfastapi.modules.iam.router import router as iam_router
 from contextlib import asynccontextmanager
 
 
@@ -36,3 +37,4 @@ app = FastAPI(
 )
 
 app.include_router(health_router)
+app.include_router(iam_router)
