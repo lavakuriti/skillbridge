@@ -3,7 +3,7 @@
 # from .role import Role
 # from .user import User
 # from .userprofile import UserProfile, Address
-from .organization import (
+from .iam import (
     Organization,
     User,
     Role,
