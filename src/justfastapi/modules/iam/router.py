@@ -13,6 +13,19 @@ from justfastapi.modules.iam.services.user import (
 router = APIRouter(prefix="/iam/users", tags=["IAM - Users"])
 
 
+@router.get("", response_model=list[UserResponse], status_code=status.HTTP_200_OK)
+def get_users(
+    session: Annotated[Session, Depends(get_database_session)],
+):
+    service = UserService(session)
+
+    try:
+        return service.get_users()
+    except:
+        print("error")
+        raise
+
+
 @router.post(
     "",
     response_model=UserResponse,
@@ -21,11 +34,11 @@ router = APIRouter(prefix="/iam/users", tags=["IAM - Users"])
 def register_user(
     data: UserCreate,
     session: Annotated[Session, Depends(get_database_session)],
-) -> UserResponse:
+):
     service = UserService(session)
 
     try:
-        return service.register(data)
+        return service.register_user(data)
     except EmailAlreadyExistsError as exc:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,

@@ -1,6 +1,5 @@
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
-from justfastapi.core.config import settings
 
 
 class Base(DeclarativeBase):
@@ -8,7 +7,6 @@ class Base(DeclarativeBase):
 
 
 def create_database_pool(database_url: str, min_size: int, max_size: int) -> Engine:
-    print(repr(settings.database_url))
     return create_engine(
         database_url,
         pool_size=min_size,

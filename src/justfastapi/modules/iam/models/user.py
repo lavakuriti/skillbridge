@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from typing import List
 from sqlalchemy import (
     BigInteger,
     Boolean,
@@ -23,11 +23,9 @@ class User(Base):
         Identity(always=True),
         primary_key=True,
     )
+    enterprise_id
     email: Mapped[str] = mapped_column(String(225), nullable=False)
     password_hash: Mapped[str] = mapped_column(Text, nullable=False)
-    first_name: Mapped[str] = mapped_column(String(100), nullable=False)
-    last_name: Mapped[str] = mapped_column(String(100), nullable=False)
-
     is_active: Mapped[bool] = mapped_column(
         Boolean, nullable=False, server_default="true"
     )
@@ -45,7 +43,7 @@ class User(Base):
         onupdate=func.now(),
     )
 
-    user_roles: Mapped[list["UserRole"]] = relationship(
+    user_roles: Mapped[List["UserRole"]] = relationship(
         back_populates="user",
         cascade="all, delete-orphan",
         passive_deletes=True,

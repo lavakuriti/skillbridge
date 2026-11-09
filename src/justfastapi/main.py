@@ -5,13 +5,11 @@ from justfastapi.core.logging import configure_logging
 from justfastapi.modules.health.router import router as health_router
 from justfastapi.modules.iam.router import router as iam_router
 from contextlib import asynccontextmanager
+from justfastapi.common.exception_handlers import register_exception_handlers
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("SETTINGS:", repr(settings.database_url))
-    print("ENV:", repr(__import__("os").environ.get("DATABASE_URL")))
-    print("settings.database_url", settings.database_url)
     configure_logging(settings.debug)
 
     db_pool = create_database_pool(
@@ -35,6 +33,6 @@ app = FastAPI(
     debug=settings.debug,
     lifespan=lifespan,
 )
-
+register_exception_handlers(app)
 app.include_router(health_router)
 app.include_router(iam_router)
